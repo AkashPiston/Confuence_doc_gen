@@ -1,0 +1,1 @@
+print("hi this is from fuction-2")
