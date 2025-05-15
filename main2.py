@@ -73,3 +73,16 @@ def update_user(email: str, user: UserCreate):
     mock_db[email]["username"] = user.username
     mock_db[email]["email"] = user.email
     return UserResponse(username=user.username, email=user.email)
+@app.put("/users2/{email}", response_model=UserResponse)
+def update_user(email: str, user: UserCreate):
+    if email not in mock_db:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    # Update user data
+    mock_db[email]["username"] = user.username
+    # mock_db[email]["email"] = user.email
+    return UserResponse(username=user.username, email=user.email)
+# API ENDPOINT: List all users
+@app.get("/users")
+def list_users():
+    return [UserResponse(username=user["username"], email=user["email"]) for user in mock_db.values()]
