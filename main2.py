@@ -40,3 +40,10 @@ def create_user(user_data: UserCreate) -> UserResponse:
 @app.post("/users", response_model=UserResponse)
 def register_user(user: UserCreate):
     return create_user(user)
+@app.post("/users/login")
+def login_user(user: UserCreate):
+    user_record = mock_db.get(user.email)
+    if not user_record or not pwd_context.verify(user.password, user_record["hashed_password"]):
+        raise HTTPException(status_code=400, detail="Invalid credentials.")
+    
+    return {"message": "Login successful", "username": user_record["username"]}
