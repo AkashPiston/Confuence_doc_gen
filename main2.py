@@ -83,6 +83,3 @@ def update_user(email: str, user: UserCreate):
     # mock_db[email]["email"] = user.email
     return UserResponse(username=user.username, email=user.email)
 # API ENDPOINT: List all users
-@app.get("/users")
-def list_users():
-    return [UserResponse(username=user["username"], email=user["email"]) for user in mock_db.values()]
