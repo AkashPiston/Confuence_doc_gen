@@ -55,3 +55,11 @@ def get_user(email: str):
         raise HTTPException(status_code=404, detail="User not found.")
     
     return UserResponse(username=user_record["username"], email=user_record["email"])
+# API ENDPOINT: Delete user
+@app.delete("/users/{email}")
+def delete_user(email: str):
+    if email not in mock_db:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    del mock_db[email]
+    return {"message": "User deleted successfully"}
