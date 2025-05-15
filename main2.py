@@ -63,3 +63,13 @@ def delete_user(email: str):
     
     del mock_db[email]
     return {"message": "User deleted successfully"}
+# API ENDPOINT: Update user
+@app.put("/users/{email}", response_model=UserResponse)
+def update_user(email: str, user: UserCreate):
+    if email not in mock_db:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    # Update user data
+    mock_db[email]["username"] = user.username
+    mock_db[email]["email"] = user.email
+    return UserResponse(username=user.username, email=user.email)
