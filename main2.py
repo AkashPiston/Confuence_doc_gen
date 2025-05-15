@@ -47,3 +47,11 @@ def login_user(user: UserCreate):
         raise HTTPException(status_code=400, detail="Invalid credentials.")
     
     return {"message": "Login successful", "username": user_record["username"]}
+# API ENDPOINT: Get user
+@app.get("/users/{email}", response_model=UserResponse)
+def get_user(email: str):
+    user_record = mock_db.get(email)
+    if not user_record:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    return UserResponse(username=user_record["username"], email=user_record["email"])
