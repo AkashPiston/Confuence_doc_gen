@@ -86,3 +86,10 @@ def update_user(email: str, user: UserCreate):
 @app.get("/users")
 def list_users():
     return [UserResponse(username=user["username"], email=user["email"]) for user in mock_db.values()]
+@app.get("/users2")
+def list_users():
+    return [UserResponse(username=user["username"], email=user["email"]) for user in mock_db.values()]
+# API ENDPOINT: Health check
+@app.get("/health")
+def health_check():
+    return {"status": "OK"}
